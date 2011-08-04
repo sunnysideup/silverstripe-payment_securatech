@@ -103,7 +103,8 @@ class SecurePayTechPayment extends Payment {
 	 * payment method.
 	 */
 	function getPaymentFormRequirements() {
-		return array (
+		return array();
+		return array(
 			"js" => "
 				require('SecurePayTechCardHolderName');
 				require('SecurePayTechCreditCardNumber');
