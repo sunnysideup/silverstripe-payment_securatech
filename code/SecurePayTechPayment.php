@@ -123,7 +123,7 @@ class SecurePayTechPayment extends Payment {
 	 */
 	function processPayment($data, $form) {
 		$data = Convert::raw2sql($data);
-		$realPayment = $this->Amount;
+		$realPayment = $this->Amount->Amount;
 		if(Director::isDev()) {
 			if(isset($data["SecurePayTechTestAmountValue"])) {
 				if($data["SecurePayTechTestAmountValue"] !== "") {
@@ -134,7 +134,8 @@ class SecurePayTechPayment extends Payment {
 						$numberString = "0.".$data["SecurePayTechTestAmountValue"];
 					}
 					$nicelyFormatted = number_format($numberString,2);
-					$this->Amount = floatval($nicelyFormatted);
+					$this->Amount->Amount = floatval($nicelyFormatted);
+					$this->Amount->Currency = Payment::site_currency();
 				}
 			}
 			if(isset($data["SecurePayTechCardsToUse"])) {
@@ -150,8 +151,8 @@ class SecurePayTechPayment extends Payment {
 		$cardExp = $data['SecurePayTechCardExpiry'];
 		$cardHolder = $data['SecurePayTechCardHolderName'];
 		$cardType = 0;
-		$amt = $this->Amount;
-		$currency = $this->Currency;
+		$amt = $this->Amount->Amount;
+		$currency = $this->Amount->Currency;
 
 		$postvars = array(
 			'OrderReference' => $orderRef,
@@ -164,7 +165,7 @@ class SecurePayTechPayment extends Payment {
 			'Amount' => $amt,
 			'Currency' => $currency
 		);
-		$this->Amount = $realPayment;
+		$this->Amount->setAmount($realPayment);
 		$response = $this->http_post('https','tx.securepaytech.com',8443,'/web/HttpPostPurchase', $postvars);
 		if(!$response) {
 			$this->Status = 'Failure';
