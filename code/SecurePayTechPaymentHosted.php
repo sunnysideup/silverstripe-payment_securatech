@@ -136,6 +136,7 @@ class SecurePayTechPaymentHosted_Handler extends Controller {
 			$this->payment = DataObject::get_one('SecurePayTechPaymentHosted', "`ID` = '$params[0]' AND `AuthorisationCode` = '$params[1]'");
 		}
 		if(! $this->payment) {
+			var_dump('hi there');
 			return;
 		}
 	}
