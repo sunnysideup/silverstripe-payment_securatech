@@ -141,10 +141,9 @@ class SecurePayTechPaymentHosted_Handler extends Controller {
 
 
 	function success() {
-		var_dump($_REQUEST);
-		/*$this->payment->Status = 'Success';
+		$this->payment->Status = 'Success';
 		$this->payment->write();
-		$this->payment->redirectToOrder();*/
+		$this->payment->redirectToOrder();
 	}
 
 	function cancel() {
