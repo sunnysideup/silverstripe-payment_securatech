@@ -6,24 +6,21 @@
  * @author your name here nicolaas [at] sunny side up .co .nz
  */
 
-class SecarePayTechPaymentHosted extends Payment{
+class SecurePayTechPaymentHosted extends Payment {
 
 	protected static $credit_cards = array(
 		'Visa' => 'payment/images/payments/methods/visa.jpg',
-		'MasterCard' => 'payment/images/payments/methods/mastercard.jpg',
-		//These two are usually not supported
-		//'Amex' => 'payment/images/payments/methods/american-express.gif',
-		//'Diners' => 'payment/images/payments/methods/dinners-club.jpg',
+		'MasterCard' => 'payment/images/payments/methods/mastercard.jpg'
 	);
 
 	protected static $spt_merchant_id;
 		static function set_spt_merchant_id ($spt_merchant_id) {self::$spt_merchant_id = $spt_merchant_id;}
-		static function get_spt_merchant_id() {if(!Director::isLive()) {return "TESTDIGISPL1";}else {return self::$spt_merchant_key;}}
+		static function get_spt_merchant_id() {if(! Director::isLive()) {return 'TESTDIGISPL1';} else {return self::$spt_merchant_id;}}
 
 	protected static $spt_merchant_key;
 		static function set_spt_merchant_key($spt_merchant_key) {self::$spt_merchant_key = $spt_merchant_key;}
 
-	protected static $merchant_url = "https://merchant.securepaytech.com/paymentpage/index.php";
+	protected static $merchant_url = 'https://merchant.securepaytech.com/paymentpage/index.php';
 		static function set_merchant_url ($s) {self::$merchant_url = $s;}
 		static function get_merchant_url() {return self::$merchant_url;}
 
@@ -74,24 +71,22 @@ class SecarePayTechPaymentHosted extends Payment{
 	}
 
 	function processPaymentForm($data) {
-		//TODO: remove eCommerce specific code
 		$order = $this->Order();
 		$url = self::get_merchant_url();
 		$amount = $order->TotalOutstanding();
 		$merchant = self::get_spt_merchant_id();
-		$returnURLSuccess = Director::absoluteBaseURL(). "SecarePayTechPaymentHosted/success/" . $this->ID ."/";
-		$returnURLFail = Director::absoluteBaseURL(). "SecarePayTechPaymentHosted/cancel/" . $this->ID ."/";
-		$orderNumber = $order->ID;
-
+		$successURL = Director::absoluteBaseURL() . SecurePayTechPaymentHosted_Handler::success_link($this);
+		$cancelURL = Director::absoluteBaseURL() . SecurePayTechPaymentHosted_Handler::cancel_link($this);
+		
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
-		$redirecthtml = <<<HTML
+		return <<<HTML
 			<form action="$url" method="post" id="PaymentProcessForm">
 				<h2>Now forwarding you to Payment Processor...</h2>
-				<input type="hidden" name="amount" value="$amount" />
-				<input type="hidden" name="merchantID" value="$merchant" />
-				<input type="hidden" name="returnURL" value="$returnURLSuccess" />
-				<input type="hidden" name="cancelURL" value="$returnURLFail" />
-				<input type="hidden" name="orderReference" value="$orderNumber"/>
+				<input type="hidden" name="amount" value="$amount"/>
+				<input type="hidden" name="merchantID" value="$merchant"/>
+				<input type="hidden" name="returnURL" value="$successURL"/>
+				<input type="hidden" name="cancelURL" value="$cancelURL"/>
+				<input type="hidden" name="orderReference" value="$order->ID"/>
 				<input type="hidden" name="enableCsc"/>
 				<input id="sub" type="submit" value="Pay by Credit Card" />
 			</form>
@@ -101,40 +96,39 @@ class SecarePayTechPaymentHosted extends Payment{
 				});
 			</script>
 HTML;
-		return $redirecthtml;
 	}
-
-
 }
 
-
-
-
-class SecarePayTechPaymentHosted_Controller extends Controller{
-
+class SecurePayTechPaymentHosted_Handler extends Controller {
+	
 	protected $payment = null;
-
+	
+	static $URLSegment = 'paytech';
+	
 	static $allowed_actions = array(
 		'success',
 		'cancel'
 	);
-
+	
+	static function success_link(SecurePayTechPaymentHosted $payment) {
+		return self::$URLSegment . "/success/$payment->ID";
+	}
+	
+	static function cancel_link(SecurePayTechPaymentHosted $payment) {
+		return self::$URLSegment . "/cancel/$payment->ID";
+	}
+	
 	function init() {
 		$id = intval($this->request("ID"));
-		$this->payment = DataObject::get_by_id("Payment", $id);
+		$this->payment = DataObject::get_by_id('SecurePayTechPaymentHosted', $id);
 	}
 
 
-	function success(){
-
+	function success() {
+		
 	}
 
-	function cancel(){
-
+	function cancel() {
+		
 	}
-
-
-
 }
-
-
