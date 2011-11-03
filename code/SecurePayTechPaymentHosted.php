@@ -130,9 +130,7 @@ class SecurePayTechPaymentHosted_Handler extends Controller {
 	function init() {
 		parent::init();
 		$params = $this->getURLParams();
-		var_dump($params);
-		$param = intval($params['ID']);
-		$params = explode('-', $param);
+		$params = explode('-', $params['ID']);
 		if(count($params) == 2) {
 			$this->payment = DataObject::get_one('SecurePayTechPaymentHosted', "`ID` = '$params[0]' AND `AuthorisationCode` = '$params[1]'");
 		}
