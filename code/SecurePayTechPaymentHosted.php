@@ -132,7 +132,9 @@ class SecurePayTechPaymentHosted_Handler extends Controller {
 		$params = $this->getURLParams();
 		$params = explode('-', $params['ID']);
 		if(count($params) == 2) {
-			$this->payment = DataObject::get_one('SecurePayTechPaymentHosted', "`SecurePayTechPaymentHosted`.`ID` = '$params[0]' AND `AuthorisationCode` = '$params[1]'");
+			$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
+			$params = Convert::raw2sql($params);
+			$this->payment = DataObject::get_one('SecurePayTechPaymentHosted', "{$bt}SecurePayTechPaymentHosted{$bt}.{$bt}ID{$bt} = '$params[0]' AND {$bt}AuthorisationCode{$bt} = '$params[1]'");
 		}
 		if(! $this->payment) {
 			return;
