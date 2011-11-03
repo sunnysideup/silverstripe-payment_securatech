@@ -7,7 +7,11 @@
  */
 
 class SecurePayTechPaymentHosted extends Payment {
-
+	
+	static $db = array(
+		'AuthorisationCode' => 'Text'
+	);
+	
 	protected static $credit_cards = array(
 		'Visa' => 'payment/images/payments/methods/visa.jpg',
 		'MasterCard' => 'payment/images/payments/methods/mastercard.jpg'
@@ -97,6 +101,11 @@ class SecurePayTechPaymentHosted extends Payment {
 			</script>
 HTML;
 	}
+	
+	function populateDefaults() {
+		parent::populateDefaults();
+		$this->AuthorisationCode = md5(uniqid(rand(), true));
+ 	}
 }
 
 class SecurePayTechPaymentHosted_Handler extends Controller {
@@ -111,24 +120,30 @@ class SecurePayTechPaymentHosted_Handler extends Controller {
 	);
 	
 	static function success_link(SecurePayTechPaymentHosted $payment) {
-		return self::$URLSegment . "/success/$payment->ID";
+		return self::$URLSegment . "/success/$payment->ID-$payment->AuthorisationCode";
 	}
 	
 	static function cancel_link(SecurePayTechPaymentHosted $payment) {
-		return self::$URLSegment . "/cancel/$payment->ID";
+		return self::$URLSegment . "/cancel/$payment->ID-$payment->AuthorisationCode";
 	}
 	
 	function init() {
-		$id = intval($this->request("ID"));
-		$this->payment = DataObject::get_by_id('SecurePayTechPaymentHosted', $id);
+		$param = intval($this->request('ID'));
+		$params = explode('-', $param);
+		if(count($params) == 2) {
+			$this->payment = DataObject::get_one('SecurePayTechPaymentHosted', "`ID` = '$params[0]' AND `AuthorisationCode` = '$params[1]'");
+		}
+		if(! $this->payment) {
+			return;
+		}
 	}
 
 
 	function success() {
-		
+		var_dump($_REQUEST);
 	}
 
 	function cancel() {
-		
+		var_dump($_REQUEST);
 	}
 }
