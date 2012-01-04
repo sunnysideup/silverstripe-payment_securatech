@@ -4,6 +4,7 @@
  * Securatech Hosted Payment
  *
  * @author your name here nicolaas [at] sunny side up .co .nz
+ * @reference: http://www.securepaytech.com/developers/documentation/SPT-Hosted-Payment-Page.pdf
  */
 
 class SecurePayTechPaymentHosted extends Payment {

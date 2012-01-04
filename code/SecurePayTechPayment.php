@@ -6,7 +6,7 @@
  *
  * Note: You must have the cURL extension installed in PHP in order to use
  * this class
- * @reference: http://www.securepaytech.com/developers/documentation/SPT-Hosted-Payment-Page.pdf
+ * @reference: http://www.securepaytech.com/developers/documentation/
  *
  **/
 
