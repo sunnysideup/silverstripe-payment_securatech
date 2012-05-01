@@ -8,11 +8,11 @@
  */
 
 class SecurePayTechPaymentHosted extends Payment {
-	
+
 	static $db = array(
 		'AuthorisationCode' => 'Text'
 	);
-	
+
 	protected static $credit_cards = array(
 		'Visa' => 'payment/images/payments/methods/visa.jpg',
 		'MasterCard' => 'payment/images/payments/methods/mastercard.jpg'
@@ -82,8 +82,10 @@ class SecurePayTechPaymentHosted extends Payment {
 		$merchant = self::get_spt_merchant_id();
 		$successURL = Director::absoluteBaseURL() . SecurePayTechPaymentHosted_Handler::success_link($this);
 		$cancelURL = Director::absoluteBaseURL() . SecurePayTechPaymentHosted_Handler::cancel_link($this);
-		
-		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
+
+		Requirements::javascript(THIRDPARTY_DIR."/jquery/jquery.js");
+		//Requirements::block(THIRDPARTY_DIR."/jquery/jquery.js");
+		//Requirements::javascript(Director::protocol()."ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js");
 		return <<<HTML
 			<form action="$url" method="post" id="PaymentProcessForm">
 				<h2>Now forwarding you to Payment Processor...</h2>
@@ -102,7 +104,7 @@ class SecurePayTechPaymentHosted extends Payment {
 			</script>
 HTML;
 	}
-	
+
 	function populateDefaults() {
 		parent::populateDefaults();
 		$this->AuthorisationCode = md5(uniqid(rand(), true));
@@ -110,24 +112,24 @@ HTML;
 }
 
 class SecurePayTechPaymentHosted_Handler extends Controller {
-	
+
 	protected $payment = null;
-	
+
 	static $URLSegment = 'paytech';
-	
+
 	static $allowed_actions = array(
 		'success',
 		'cancel'
 	);
-	
+
 	static function success_link(SecurePayTechPaymentHosted $payment) {
 		return self::$URLSegment . "/success/$payment->ID-$payment->AuthorisationCode";
 	}
-	
+
 	static function cancel_link(SecurePayTechPaymentHosted $payment) {
 		return self::$URLSegment . "/cancel/$payment->ID-$payment->AuthorisationCode";
 	}
-	
+
 	function init() {
 		parent::init();
 		$params = $this->getURLParams();
