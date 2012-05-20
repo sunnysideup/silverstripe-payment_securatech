@@ -82,7 +82,6 @@ class SecurePayTechPaymentHosted extends Payment {
 		$merchant = self::get_spt_merchant_id();
 		$successURL = Director::absoluteBaseURL() . SecurePayTechPaymentHosted_Handler::success_link($this);
 		$cancelURL = Director::absoluteBaseURL() . SecurePayTechPaymentHosted_Handler::cancel_link($this);
-
 		Requirements::javascript(THIRDPARTY_DIR."/jquery/jquery.js");
 		//Requirements::block(THIRDPARTY_DIR."/jquery/jquery.js");
 		//Requirements::javascript(Director::protocol()."ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js");
@@ -107,6 +106,13 @@ HTML;
 
 	function populateDefaults() {
 		parent::populateDefaults();
+		if(isset(self::$defaults)) {
+			foreach(self::$defaults as $fieldName => $fieldValue) {
+				if(!isset($this->$fieldName) || $this->$fieldName === null) {
+					$this->$fieldName = $fieldValue;
+				}
+			}
+		}
 		$this->AuthorisationCode = md5(uniqid(rand(), true));
  	}
 }
