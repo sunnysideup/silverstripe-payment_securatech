@@ -103,7 +103,7 @@ class SecurePayTechPaymentHosted extends Payment {
 				<input type="hidden" name="orderReference" value="$order->ID"/>
 				<input type="hidden" name="enableCsc"/>
 				<input id="sub" type="submit" value="Pay by Credit Card" />
-				<input type="hidden" name="noAmex" value="true" />
+				<input type="hidden" name="noAmex" value="$noAmex" />
 				<input type="hidden" name="noDiners" value="$noDiners" />
 			</form>
 			<script type="text/javascript">
