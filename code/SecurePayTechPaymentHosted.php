@@ -80,13 +80,13 @@ class SecurePayTechPaymentHosted extends Payment {
 		$url = self::get_merchant_url();
 		$amount = $order->TotalOutstanding();
 		$merchant = self::get_spt_merchant_id();
-		$noDiners = false;
+		$noDiners = "false";
 		if(!isset(self::$credit_cards["Diners"])) {
-			$noDiners = true;
+			$noDiners = "true";
 		}
-		$noAmex = false;
+		$noAmex = "false";
 		if(!isset(self::$credit_cards["Amex"])) {
-			$noAmex = true;
+			$noAmex = "true";
 		}
 		$successURL = Director::absoluteBaseURL() . SecurePayTechPaymentHosted_Handler::success_link($this);
 		$cancelURL = Director::absoluteBaseURL() . SecurePayTechPaymentHosted_Handler::cancel_link($this);
