@@ -3,8 +3,8 @@
 /**
  * Securatech Hosted Payment
  *
- * @author your name here nicolaas [at] sunny side up .co .nz
  * @reference: http://www.securepaytech.com/developers/documentation/SPT-Hosted-Payment-Page.pdf
+ * @author your name here nicolaas [at] sunny side up .co .nz
  */
 
 class SecurePayTechPaymentHosted extends Payment {
@@ -80,6 +80,14 @@ class SecurePayTechPaymentHosted extends Payment {
 		$url = self::get_merchant_url();
 		$amount = $order->TotalOutstanding();
 		$merchant = self::get_spt_merchant_id();
+		$noDiners = false;
+		if(!isset(self::$credit_cards["Diners"])) {
+			$noDiners = true;
+		}
+		$noAmex = false;
+		if(!isset(self::$credit_cards["Amex"])) {
+			$noAmex = true;
+		}
 		$successURL = Director::absoluteBaseURL() . SecurePayTechPaymentHosted_Handler::success_link($this);
 		$cancelURL = Director::absoluteBaseURL() . SecurePayTechPaymentHosted_Handler::cancel_link($this);
 		Requirements::javascript(THIRDPARTY_DIR."/jquery/jquery.js");
@@ -95,6 +103,8 @@ class SecurePayTechPaymentHosted extends Payment {
 				<input type="hidden" name="orderReference" value="$order->ID"/>
 				<input type="hidden" name="enableCsc"/>
 				<input id="sub" type="submit" value="Pay by Credit Card" />
+				<input type="hidden" name="noAmex" value="true" />
+				<input type="hidden" name="noDiners" value="$noDiners" />
 			</form>
 			<script type="text/javascript">
 				jQuery(document).ready(function() {
