@@ -1,5 +1,5 @@
 {
-	"name": "silverstripe/payment_securatech",
+	"name": "sunnysideup/payment_securatech",
 	"type": "silverstripe-module",
 	"description": "Add the securatech payment gateway to your Silverstripe E-commerce and / or Silverstripe Payment Modules.",
 	"homepage": "http://www.silverstripe-ecommerce.com",
