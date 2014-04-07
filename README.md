@@ -1,7 +1,6 @@
-###############################################
+
 Payment Securatech
-Pre 0.1 proof of concept
-###############################################
+================================================================================
 
 Provides the connection for the Securatech payment
 gateway (both hosted and non-hosted).
