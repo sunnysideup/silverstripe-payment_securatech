@@ -174,7 +174,7 @@ class SecurePayTechPayment extends Payment {
 				$this->Message .= " (".curl_error($ch).")";
 			}
 			$this->write();
-			$result = new Payment_Failure();
+			$result = EcommercePayment_Failure::create();
 			return $result;
 		}
 		$responses = explode (',', $response);
@@ -188,12 +188,12 @@ class SecurePayTechPayment extends Payment {
 		}
 		if ($ok) {
 			$this->Status = 'Success';
-			$result = new Payment_Success();
+			$result = EcommercePayment_Success::create();
 		}
 		else {
 			$this->Status = 'Failure';
 			$this->Message = $this->getResponseMessage($responses [0]);
-			$result = new Payment_Failure();
+			$result = EcommercePayment_Failure::create();
 		}
 		$this->write();
 		return $result;
