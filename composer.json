@@ -1,21 +1,25 @@
 {
-	"name": "sunnysideup/payment_securatech",
-	"type": "silverstripe-module",
-	"description": "Add the securatech payment gateway to your Silverstripe E-commerce and / or Silverstripe Payment Modules.",
-	"homepage": "http://www.silverstripe-ecommerce.com",
-	"keywords": ["ecommerce", "e-commerce", "shop", "securatech", "silverstripe"],
-	"license": "Sunny Side Up (BSD-3-Clause and CUSTOM)",
-	"authors":[
-		{
-			"name": "Nicolaas Francken",
-			"homepage": "https://github.com/sunnysideup",
-			"email" : "modules@sunnysideup.co.nz",
-			"role" : "lead developer"
-		}
-	],
-	"require":{
-		"php": ">=5.3.2",
-		"silverstripe/framework": "~2.4",
-		"sunnysideup/ecommerce": "~2.4"
-	}
+    "name": "sunnysideup/payment_securatech",
+    "type": "silverstripe-module",
+    "description": "Add the securatech payment gateway to your Silverstripe E-commerce and / or Silverstripe Payment Modules.",
+    "keywords": [
+        "ecommerce",
+        "e-commerce",
+        "shop",
+        "securatech",
+        "silverstripe"
+    ],
+    "license": "Sunny Side Up (BSD-3-Clause and CUSTOM)",
+    "authors": [
+        {
+            "name": "Nicolaas Francken",
+            "email": "modules@sunnysideup.co.nz",
+            "role": "lead developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "silverstripe/framework": "~2.4",
+        "sunnysideup/ecommerce": "~2.4"
+    }
 }
