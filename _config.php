@@ -4,7 +4,7 @@
 **/
 
 Director::addRules(50, array(
-	SecurePayTechPaymentHosted_Handler::$URLSegment . '/$Action/$ID' => 'SecurePayTechPaymentHosted_Handler',
+    SecurePayTechPaymentHosted_Handler::$URLSegment . '/$Action/$ID' => 'SecurePayTechPaymentHosted_Handler',
 ));
 
 //copy the lines between the START AND END line to your /mysite/_config.php file and choose the right settings
